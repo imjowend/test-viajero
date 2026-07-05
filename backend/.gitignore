@@ -1,0 +1,21 @@
+# Documentación de contexto para Claude Code (no se commitea)
+CLAUDE.md
+.claude/
+
+# Variables de entorno
+.env
+
+# Base de datos SQLite
+data/
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Binarios de build
+/server
+/backend
+
+# Go
+*.test
+*.out
