@@ -10,7 +10,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://132.145.131.49:8082/:path*',
+        destination: 'https://viajero-api.joaquinvasquez.com/:path*',
       },
     ]
   },
