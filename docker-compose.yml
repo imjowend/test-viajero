@@ -4,7 +4,7 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - viajero_data:/data
+      - viajero_data:/app/data
     networks:
       - web
     labels:
