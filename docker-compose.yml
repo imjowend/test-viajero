@@ -1,6 +1,7 @@
 services:
   test-viajero-api:
     build: ./backend
+    container_name: test-viajero-api
     env_file:
       - ./backend/.env
     volumes:
@@ -13,11 +14,12 @@ services:
       - "traefik.http.routers.viajero.entrypoints=websecure"
       - "traefik.http.routers.viajero.tls.certresolver=cloudflare"
       - "traefik.http.services.viajero.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.viajero-ratelimit.ratelimit.average=10"
+      - "traefik.http.middlewares.viajero-ratelimit.ratelimit.burst=20"
+      - "traefik.http.routers.viajero.middlewares=viajero-ratelimit"
     restart: unless-stopped
-
 volumes:
   viajero_data:
-
 networks:
   web:
     external: true
