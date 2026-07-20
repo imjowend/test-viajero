@@ -14,7 +14,6 @@ import (
 func main() {
 	port := getEnv("PORT", "8080")
 	dbPath := getEnv("DB_PATH", "./data/quiz.db")
-	allowedOrigin := mustGetEnv("ALLOWED_ORIGIN")
 	jwtSecret := mustGetEnv("JWT_SECRET")
 	jwtExpiryHours := getEnvInt("JWT_EXPIRY_HOURS", 72)
 	adminUsername := mustGetEnv("ADMIN_USERNAME")
@@ -37,10 +36,8 @@ func main() {
 	requireAuth := auth.RequireAuth(jwtSecret)
 	mux.Handle("GET /results", requireAuth(handlers.Results(conn)))
 
-	server := withCORS(allowedOrigin, mux)
-
 	log.Printf("Servidor escuchando en el puerto %s", port)
-	if err := http.ListenAndServe(":"+port, server); err != nil {
+	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatalf("error en el servidor: %v", err)
 	}
 }
@@ -49,23 +46,6 @@ func healthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{"status":"ok"}`))
-}
-
-// withCORS aplica las cabeceras CORS a todas las rutas y responde 200
-// inmediatamente a los preflight OPTIONS.
-func withCORS(allowedOrigin string, next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-
-		if r.Method == http.MethodOptions {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-
-		next.ServeHTTP(w, r)
-	})
 }
 
 func getEnv(key, fallback string) string {

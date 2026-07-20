@@ -16,7 +16,10 @@ services:
       - "traefik.http.services.viajero.loadbalancer.server.port=8080"
       - "traefik.http.middlewares.viajero-ratelimit.ratelimit.average=10"
       - "traefik.http.middlewares.viajero-ratelimit.ratelimit.burst=20"
-      - "traefik.http.routers.viajero.middlewares=viajero-ratelimit"
+      - "traefik.http.middlewares.viajero-cors.headers.accesscontrolalloworiginlist=https://test-viajero.vercel.app"
+      - "traefik.http.middlewares.viajero-cors.headers.accesscontrolallowmethods=GET,POST,OPTIONS"
+      - "traefik.http.middlewares.viajero-cors.headers.accesscontrolallowheaders=Content-Type,Authorization"
+      - "traefik.http.routers.viajero.middlewares=viajero-cors,viajero-ratelimit"
     restart: unless-stopped
 volumes:
   viajero_data:
