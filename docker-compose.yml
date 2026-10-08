@@ -19,6 +19,8 @@ services:
       - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolalloworiginlist=https://test-viajero.vercel.app"
       - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolallowmethods=GET,POST,OPTIONS"
       - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolallowheaders=Content-Type,Authorization"
+      - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolmaxage=600"
+      - "traefik.http.middlewares.viajero-api-cors.headers.addvaryheader=true"
       - "traefik.http.routers.viajero-api.middlewares=viajero-api-cors,viajero-api-ratelimit"
     restart: unless-stopped
 volumes:
