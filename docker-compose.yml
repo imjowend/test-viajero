@@ -10,16 +10,16 @@ services:
       - web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.viajero.rule=Host(`viajero-api.joaquinvasquez.com`)"
-      - "traefik.http.routers.viajero.entrypoints=websecure"
-      - "traefik.http.routers.viajero.tls.certresolver=cloudflare"
-      - "traefik.http.services.viajero.loadbalancer.server.port=8080"
-      - "traefik.http.middlewares.viajero-ratelimit.ratelimit.average=10"
-      - "traefik.http.middlewares.viajero-ratelimit.ratelimit.burst=20"
-      - "traefik.http.middlewares.viajero-cors.headers.accesscontrolalloworiginlist=https://test-viajero.vercel.app"
-      - "traefik.http.middlewares.viajero-cors.headers.accesscontrolallowmethods=GET,POST,OPTIONS"
-      - "traefik.http.middlewares.viajero-cors.headers.accesscontrolallowheaders=Content-Type,Authorization"
-      - "traefik.http.routers.viajero.middlewares=viajero-cors,viajero-ratelimit"
+      - "traefik.http.routers.viajero-api.rule=Host(`viajero-api.joaquinvasquez.com`)"
+      - "traefik.http.routers.viajero-api.entrypoints=websecure"
+      - "traefik.http.routers.viajero-api.tls.certresolver=cloudflare"
+      - "traefik.http.services.viajero-api.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.viajero-api-ratelimit.ratelimit.average=10"
+      - "traefik.http.middlewares.viajero-api-ratelimit.ratelimit.burst=20"
+      - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolalloworiginlist=https://test-viajero.vercel.app"
+      - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolallowmethods=GET,POST,OPTIONS"
+      - "traefik.http.middlewares.viajero-api-cors.headers.accesscontrolallowheaders=Content-Type,Authorization"
+      - "traefik.http.routers.viajero-api.middlewares=viajero-api-cors,viajero-api-ratelimit"
     restart: unless-stopped
 volumes:
   viajero_data:
